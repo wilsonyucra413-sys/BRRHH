@@ -5,15 +5,24 @@ using RRHH.Core.Interfaces;
 using RRHH.Infraestructura.Data;
 using RRHH.Infraestructura.Repositorio;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<RRHHContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("RRHHContext") ?? throw new InvalidOperationException("Connection string 'RRHHContext' not found.")));
-// Add services to the container.
+
+var pe= Environment.GetEnvironmentVariable("DATABASE_URL")
+    ?? builder.Configuration.GetConnectionString("RRHHContext");
+
+// builder.Services.AddDbContext<RRHHContext>(options =>
+//     options.UseNpgsql(builder.Configuration.GetConnectionString("RRHHContext") ?? throw new InvalidOperationException("Connection string 'RRHHContext' not found.")));
+// // Add services to the container.
+
+builder.Services.AddDbContext<RRHHContext>(options => 
+options.UseNpgsql(pe));
 
 builder.WebHost.UseUrls("http://0.0.0.0:8080");
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 builder.Services.AddScoped<IPersonaRepositorio, PersonaRepositorio>();
 builder.Services.AddScoped<IEmpleadoRepositorio, EmpleadoRepositorio>();
 builder.Services.AddScoped<IDepartamentoEmpresaRepositorio, DepartamentoEmpresaRepositorio>();
@@ -36,9 +45,6 @@ builder.Services.AddCors(option =>
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 
-    app.UseSwagger();
-    app.UseSwaggerUI();
-
 
 
 using (var scope =app.Services.CreateScope())
@@ -46,6 +52,11 @@ using (var scope =app.Services.CreateScope())
     var db=scope.ServiceProvider.GetRequiredService<RRHHContext>();
     db.Database.Migrate();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
 app.UseHttpsRedirection();
 app.UseCors("myApp");
 app.UseAuthorization();

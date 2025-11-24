@@ -22,6 +22,106 @@ namespace RRHH.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("RRHH.Core.Entidades.Asistencia", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly>("Fecha")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("HoraEntrada")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<TimeOnly>("HoraSalida")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<int>("idEmpleado")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Asistencia");
+                });
+
+            modelBuilder.Entity("RRHH.Core.Entidades.Contrato", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly>("FechaFin")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("FechaInicio")
+                        .HasColumnType("date");
+
+                    b.Property<int>("Salario")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("idEmpleado")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("idTipoContrato")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Contrato");
+                });
+
+            modelBuilder.Entity("RRHH.Core.Entidades.Curriculum", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("CVurl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("idDepartamentoEmpresa")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("idPersona")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Curriculum");
+                });
+
             modelBuilder.Entity("RRHH.Core.Entidades.DepartamentoEmpresa", b =>
                 {
                     b.Property<int>("id")
@@ -45,6 +145,37 @@ namespace RRHH.Migrations
                     b.HasKey("id");
 
                     b.ToTable("DepartamentoEmpresa");
+                });
+
+            modelBuilder.Entity("RRHH.Core.Entidades.DetalleNomina", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("Concepto")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Monto")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("idNomina")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.ToTable("DetalleNomina");
                 });
 
             modelBuilder.Entity("RRHH.Core.Entidades.Empleado", b =>
