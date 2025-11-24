@@ -43,7 +43,7 @@ var app = builder.Build();
 
 using (var scope =app.Services.CreateScope())
 {
-    var db=scope.ServiceProvider.GetRequiredService<MicroServicioVentasContext>();
+    var db=scope.ServiceProvider.GetRequiredService<RRHHContext>();
     db.Database.Migrate();
 }
 app.UseHttpsRedirection();
