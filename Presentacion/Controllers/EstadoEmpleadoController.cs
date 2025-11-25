@@ -28,7 +28,7 @@ namespace RRHH.Presentacion.Controllers
         {
             return Ok(await context.GetEstadoEmpleado());
         }
-        [HttpPost("Crear/{codgio}")]
+        [HttpPost("Crear/{codigo}")]
         public async Task<IActionResult> PostEstadoEmpleado(string descripcion,string codigo)
         {
             var estadoempleado= await context.PostEstadoEmpleado(descripcion,codigo);
