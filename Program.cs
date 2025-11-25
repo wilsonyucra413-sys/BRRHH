@@ -29,6 +29,8 @@ builder.Services.AddScoped<IDepartamentoEmpresaRepositorio, DepartamentoEmpresaR
 builder.Services.AddScoped<IPuestoRepositorio, PuestoRepositorio>();
 builder.Services.AddScoped<IEstadoEmpleadoRepositorio, EstadoEmpleadoRepositorio>();
 builder.Services.AddScoped<ITipoContratoRepositorio,TipoContratoRepositorio>();
+builder.Services.AddScoped<INominaRepositorio,NominaRepositorio>();
+
 
 
 
