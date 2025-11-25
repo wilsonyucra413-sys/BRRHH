@@ -28,13 +28,41 @@ namespace RRHH.Presentacion.Controllers
         {
             return Ok(await context.GetNomina());
         }
-        [HttpPost("Crear/{codigo}")]
-        public async Task<IActionResult> PostNomina(string empleado, DateOnly periodoinicio, DateOnly periodofin, int total,int totaldescuento,string codigo)
+[HttpPost("Crear/{codigo}")]
+public async Task<IActionResult> PostNomina(
+    [FromRoute] string codigo, 
+    [FromQuery] string empleado, 
+    [FromQuery] string periodoinicio, 
+    [FromQuery] string periodofin,    
+    [FromQuery] int total, 
+    [FromQuery] int totaldescuento)
+{
+
+    DateOnly fechaInicioParsed;
+    DateOnly fechaFinParsed;
+
+    if (!DateOnly.TryParse(periodoinicio, out fechaInicioParsed) || !DateOnly.TryParse(periodofin, out fechaFinParsed))
+    {
+
+        return BadRequest("El formato de las fechas es incorrecto. Use AAAA-MM-DD.");
+    }
+
+    try
+    {
+        var nomina = await context.PostNomina(empleado, fechaInicioParsed, fechaFinParsed, total, totaldescuento, codigo); 
+        
+        if (nomina == null)
         {
-            var nomina = await context.PostNomina(empleado,periodoinicio,periodofin,total,totaldescuento,codigo); 
-            if(nomina == null) return NotFound("Verifique sus datos de Nomina.") ;
-            return Ok(nomina);
+            return BadRequest("Verifique sus datos de Nomina. El empleado puede no existir, la nómina ya puede existir o los valores son incorrectos.");
         }
+
+        return Ok(nomina);
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+    }
+}
         [HttpPut("Actulizar/{codigo}")]
         public async Task<IActionResult> PutNomina(DateOnly periodoinicio, DateOnly periodofin, int total, int totaldescuento, string codigo)
         {
